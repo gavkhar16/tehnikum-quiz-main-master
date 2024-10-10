@@ -1,13 +1,14 @@
 import React from "react";
 import Welcome from "./pages/Welcome";
-import Registration from "./pages/Registration";
-import "./styles/main.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StepOne from "./pages/StepOne";
 import StepTwo from "./pages/StepTwo";
 import StepThree from "./pages/StepThree";
 import StepFour from "./pages/StepFour";
-import Thanks from "../src/pages/Thanks";
+import Thanks from "./pages/Thanks";
+import "./styles/main.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "./context/themeProvider";
+import { QuizProvider } from "./context/QuizContext";  // Обновленный импорт
 
 // Создаем маршрутизатор
 const routerConfig = createBrowserRouter([
@@ -39,10 +40,13 @@ const routerConfig = createBrowserRouter([
 
 const App = () => {
   return (
-    <div className="App">
-    
-      <RouterProvider router={routerConfig} />
-    </div>
+    <ThemeProvider>
+      <QuizProvider> {/* Оборачиваем в контекст опроса */}
+        <div className="App">
+          <RouterProvider router={routerConfig} />
+        </div>
+      </QuizProvider>
+    </ThemeProvider>
   );
 };
 

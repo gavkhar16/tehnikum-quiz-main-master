@@ -1,29 +1,19 @@
 import React from "react";
-import { LinkButton } from "../components/LinkButton";
-import { ProgressBar } from "../components/ProgressBar";
+import { Header } from "../components/Header"; // Импортируем компонент заголовка
+import { ProgressBar } from "../components/ProgressBar"; // Импортируем компонент прогресс-бара
+import { LinkButton } from "../components/LinkButton"; // Импортируем компонент кнопки
 
 const StepFour = () => {
   return (
     <div className="container">
       <div className="wrapper">
         <div className="emoji-quiz">
-          {/* <div className="indicator">
-            <div className="indicator__text">
-              <span className="indicator__description">
-                Скидка за прохождение опроса:
-              </span>
-              <span className="indicator__value">15%</span>
-            </div>
-            <div className="indicator__progressbar">
-              <div className="indicator__unit indicator__unit-1 _active"></div>
-              <div className="indicator__unit indicator__unit-2 _active"></div>
-              <div className="indicator__unit indicator__unit-3 _active"></div>
-              <div className="indicator__unit indicator__unit-4"></div>
-            </div>
-          </div> */}
-           <ProgressBar currentStep={4}/>
+          <ProgressBar currentStep={4} /> {/* Устанавливаем текущий шаг на 4 */}
+          <Header headerType="h2" headerText="4. Занимательный вопрос" /> {/* Заголовок */}
           <div className="question">
-            <h2>4. Занимательный вопрос</h2>
+            <p className="question__instruction">
+              Пожалуйста, выберите один из вариантов:
+            </p>
             <ul className="level-variants">
               <li className="variant-wrapper">
                 <input required type="radio" name="variant" id="variant-1" />
@@ -46,7 +36,7 @@ const StepFour = () => {
                 <label htmlFor="variant-5">5</label>
               </li>
             </ul>
-            <LinkButton path="/thanks"/>
+            <LinkButton path="/thanks" /> {/* Кнопка для перехода к Thank You */}
           </div>
         </div>
       </div>

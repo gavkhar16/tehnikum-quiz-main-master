@@ -1,28 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Header } from "../components/Header";
 import { AppLabel } from "../components/AppLabel";
 import { AppButton } from "../components/AppButton";
 import { ProgressBar } from "../components/ProgressBar";
+import { useNavigate } from "react-router-dom";
+import { QuizContext } from "../context/QuizContext";
 
 const StepOne = () => {
-  const nameRegex = /^[a-zA-Zа-яА-ЯёЁ]{1,20}$/;  
+  const { userInfo, setUserInfo } = useContext(QuizContext);
   const [answer, setAnswer] = useState("");
   const [clickkBtn, setClickkBtn] = useState(true);
-  
-  // Определяем функцию errorClick
-  const errorClick = () => {
+  const navigate = useNavigate();
+  const nameRegex = /^[a-zA-Zа-яА-ЯёЁ]{1,20}$/;
+
+  const handleAnswer = () => {
     if (!nameRegex.test(answer)) {
       alert("Ошибка: Введите корректный ответ");
     } else {
-      alert("Ответ принят");
+      setUserInfo((prev) => ({ ...prev, answerOne: answer }));
+      navigate("/step-two");
     }
   };
 
   useEffect(() => {
     if (nameRegex.test(answer)) {
-      setClickkBtn(false); 
+      setClickkBtn(false);
     } else {
-      setClickkBtn(true);  
+      setClickkBtn(true);
     }
   }, [answer]);
 
@@ -30,7 +34,7 @@ const StepOne = () => {
     <div className="container">
       <div className="wrapper">
         <div className="single-input-quiz">
-          <ProgressBar currentStep={1}/>
+          <ProgressBar currentStep={1} />
           <div className="question">
             <Header headerType="h2" headerText="1. Занимательный вопрос" />
             <AppLabel
@@ -46,7 +50,7 @@ const StepOne = () => {
               isDisabled={clickkBtn}
               id="next-btn"
               buttonType="button"
-              buttonClick={errorClick} 
+              buttonClick={handleAnswer}
             />
           </div>
         </div>

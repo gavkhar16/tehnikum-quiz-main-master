@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Header } from "../components/Header";
 import { AppLabel } from "../components/AppLabel";
 import { AppButton } from "../components/AppButton";
 import { useNavigate } from "react-router-dom";
+import { QuizContext } from "../context/QuizContext";
 
 const Welcome = () => {
-  const navigate = useNavigate()
+  const { userInfo, setUserInfo } = useContext(QuizContext);
+  const navigate = useNavigate();
   const phoneRegex =
-    /^\+?\d{1,4}?[\s-]?\(?\d{1,4}\)?[\s-]?\d{1,4}[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
+    /^\+?\d{1,4}?[\s-]?\(?\d{1,4}\)?[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
   const nameRegex = /^[a-zA-Zа-яА-ЯёЁ]{1,20}$/;
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
@@ -15,22 +17,26 @@ const Welcome = () => {
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
 
-  const goToNextPage= ()=> {
-    navigate("/step-two")
-  }
+  const goToNextPage = () => {
+    setUserInfo((prev) => ({
+      ...prev,
+      name: nameValue,
+      phone: phoneValue,
+    }));
+    navigate("/step-one");
+  };
 
   const handleClick = () => {
     const isNameError = !nameRegex.test(nameValue);
     const isPhoneError = !phoneRegex.test(phoneValue);
-    
+
     setNameError(isNameError);
     setPhoneError(isPhoneError);
-  
+
     if (!isNameError && !isPhoneError) {
       goToNextPage();
     }
   };
-
 
   useEffect(() => {
     if (nameValue && phoneValue) {
@@ -39,6 +45,7 @@ const Welcome = () => {
       setCheckBtn(true);
     }
   }, [nameValue, phoneValue]);
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -51,7 +58,7 @@ const Welcome = () => {
             <AppLabel
               labelText="Ваше имя"
               hasError={nameError}
-              errorText="Введитеимя имя в правильном формате"
+              errorText="Введите имя в правильном формате"
               id="username"
               isRequired
               inputPlaceholder="Имя"
@@ -60,7 +67,7 @@ const Welcome = () => {
               labelChange={setNameValue}
             />
             <AppLabel
-              labelText="Ваш номере телефона"
+              labelText="Ваш номер телефона"
               errorText="Введите номер в правильном формате"
               id="phone"
               hasError={phoneError}
@@ -70,10 +77,7 @@ const Welcome = () => {
               labelValue={phoneValue}
               labelChange={setPhoneValue}
             />
-            <AppButton
-              isDisabled={checkBtn}
-              buttonClick={handleClick}
-            />
+            <AppButton isDisabled={checkBtn} buttonClick={handleClick} />
           </form>
         </div>
       </div>
