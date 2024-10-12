@@ -1,28 +1,28 @@
+// Welcome.js
 import React, { useState, useContext, useEffect } from "react";
 import { Header } from "../components/Header";
 import { AppLabel } from "../components/AppLabel";
 import { AppButton } from "../components/AppButton";
 import { useNavigate } from "react-router-dom";
 import { QuizContext } from "../context/QuizContext";
+import { ThemeContext, themes } from "../context/themeContext";
 
 const Welcome = () => {
-  const { userInfo, setUserInfo } = useContext(QuizContext);
-  const navigate = useNavigate();
-  const phoneRegex =
-    /^\+?\d{1,4}?[\s-]?\(?\d{1,4}\)?[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
-  const nameRegex = /^[a-zA-Zа-яА-ЯёЁ]{1,20}$/;
+  const { dispatch } = useContext(QuizContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
   const [checkBtn, setCheckBtn] = useState(true);
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
+  const navigate = useNavigate();
+
+  const phoneRegex = /^\+?\d{1,4}?[\s-]?\(?\d{1,4}\)?[\s-]?\d{1,4}[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
+  const nameRegex = /^[a-zA-Zа-яА-ЯёЁ]{1,20}$/;
 
   const goToNextPage = () => {
-    setUserInfo((prev) => ({
-      ...prev,
-      name: nameValue,
-      phone: phoneValue,
-    }));
+    dispatch({ type: "SET_NAME", payload: nameValue });
+    dispatch({ type: "SET_PHONE", payload: phoneValue });
     navigate("/step-one");
   };
 
@@ -47,13 +47,11 @@ const Welcome = () => {
   }, [nameValue, phoneValue]);
 
   return (
-    <div className="container">
+    <div className={`container ${theme === themes.dark ? "_dark" : ""}`}>
       <div className="wrapper">
         <div className="welcome">
-          <Header
-            headerType="h1"
-            headerText="Добро пожаловать в квиз от лучшего учебного центра"
-          />
+          <button onClick={toggleTheme}>Смена темы</button>
+          <Header headerType="h1" headerText="Добро пожаловать в квиз от лучшего учебного центра" />
           <form className="welcome__form">
             <AppLabel
               labelText="Ваше имя"
@@ -71,7 +69,7 @@ const Welcome = () => {
               errorText="Введите номер в правильном формате"
               id="phone"
               hasError={phoneError}
-              isRequired={true}
+              isRequired
               inputPlaceholder="+998 9- --- -- --"
               inputType="text"
               labelValue={phoneValue}

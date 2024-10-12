@@ -18,3 +18,4 @@ export const AnswerLable = ({ answerLabel, id, labelChange, answerImg }) => {
     </li>
   );
 };
+export default AnswerLable

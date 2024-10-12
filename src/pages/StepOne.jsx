@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { QuizContext } from "../context/QuizContext";
 
 const StepOne = () => {
-  const { userInfo, setUserInfo } = useContext(QuizContext);
+  const { state, dispatch } = useContext(QuizContext); // Извлекаем state и dispatch
   const [answer, setAnswer] = useState("");
   const [clickkBtn, setClickkBtn] = useState(true);
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const StepOne = () => {
     if (!nameRegex.test(answer)) {
       alert("Ошибка: Введите корректный ответ");
     } else {
-      setUserInfo((prev) => ({ ...prev, answerOne: answer }));
+      dispatch({ type: "SET_ANSWER_ONE", payload: answer }); // Используем dispatch для обновления состояния
       navigate("/step-two");
     }
   };

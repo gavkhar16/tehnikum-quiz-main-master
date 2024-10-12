@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { Header } from "../components/Header";
 import { AnswerLable } from "../components/AnswerLable";
 import { LinkButton } from "../components/LinkButton";
 import { QuizContext } from "../context/QuizContext";
+import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 
 const StepTwo = () => {
-  const { userInfo, setUserInfo } = useContext(QuizContext);
+  const { dispatch } = useContext(QuizContext); // Извлекаем dispatch
+  const navigate = useNavigate(); // Получаем функцию навигации
+  const [selectedCourse, setSelectedCourse] = useState(null); // Храним выбранный курс
+
   const variants = [
     { id: "variant-1", coursName: "Frontend" },
     { id: "variant-2", coursName: "Python" },
@@ -15,7 +19,16 @@ const StepTwo = () => {
   ];
 
   const handleCourseSelection = (courseName) => {
-    setUserInfo((prev) => ({ ...prev, selectedCourse: courseName }));
+    setSelectedCourse(courseName); // Сохраняем выбранный курс
+  };
+
+  const handleNextStep = () => {
+    if (selectedCourse) {
+      dispatch({ type: "SET_COURSE", payload: selectedCourse }); // Диспетчеризуем курс
+      navigate("/step-three"); // Переходим на следующий шаг
+    } else {
+      alert("Пожалуйста, выберите курс."); // Предупреждение, если курс не выбран
+    }
   };
 
   return (
@@ -31,7 +44,8 @@ const StepTwo = () => {
                   id={elem.id}
                   answerLabel={elem.coursName}
                   key={elem.id}
-                  labelChange={() => handleCourseSelection(elem.coursName)}
+                  labelChange={() => handleCourseSelection(elem.coursName)} // Вызываем при выборе
+                  isSelected={selectedCourse === elem.coursName} // Можем использовать для стилизации выбранного варианта
                 />
               ))}
             </ul>

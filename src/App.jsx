@@ -8,7 +8,7 @@ import Thanks from "./pages/Thanks";
 import "./styles/main.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "./context/themeProvider";
-import { QuizProvider } from "./context/QuizContext";  // Обновленный импорт
+import { QuizProvider } from "./context/QuizContext";  
 
 // Создаем маршрутизатор
 const routerConfig = createBrowserRouter([
