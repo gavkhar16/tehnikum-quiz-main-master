@@ -6,8 +6,9 @@ import { LinkButton } from "../components/LinkButton";
 import { QuizContext } from "../context/QuizContext";
 import { useNavigate } from "react-router-dom";
 
+// Правильный импорт картинок
 import laughImg from "../img/laugh.png";
-import heartsImg from "../img/bell.png";
+import heartsImg from "../img/hearts.png"; // Путь до вашей картинки hearts
 import smirkImg from "../img/smirk.png";
 import frightImg from "../img/fright.png";
 
@@ -18,7 +19,7 @@ const StepThree = () => {
 
   const variants = [
     { id: "variant-1", label: "Ваш ответ 1", imgSrc: laughImg },
-    { id: "variant-2", label: "Ваш ответ 2", imgSrc: heartsImg },
+    { id: "variant-2", label: "Ваш ответ 2", imgSrc: heartsImg }, // Используем локальный путь
     { id: "variant-3", label: "Ваш ответ 3", imgSrc: smirkImg },
     { id: "variant-4", label: "Ваш ответ 4", imgSrc: frightImg },
   ];
@@ -45,7 +46,7 @@ const StepThree = () => {
                   <AnswerLable
                     id={variant.id}
                     answerLabel={variant.label}
-                    imgSrc={variant.imgSrc}
+                    answerImg={variant.imgSrc} // Правильный путь картинки
                     labelChange={() => setSelectedVariant(variant.id)}
                   />
                 </li>

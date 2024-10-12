@@ -13,9 +13,9 @@ export const AnswerLable = ({ answerLabel, id, labelChange, answerImg }) => {
       <label htmlFor={id}>
         {/* Отображаем изображение только если оно передано */}
         {answerImg && <img src={answerImg} alt={answerLabel} />} 
-        <p>{answerLabel}</p>
+        <p>{answerLabel}</p>  {/* Текст рядом с изображением */}
       </label>
     </li>
   );
 };
-export default AnswerLable
+export default AnswerLable;
